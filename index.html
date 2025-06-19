@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lounge Menu</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: sans-serif;
+      background: #f8f8f8;
+    }
+    header {
+      padding: 1rem;
+      background-color: #000;
+      color: #fff;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+    .pdf-wrapper {
+      height: calc(100% - 60px); /* Adjust for header */
+      width: 100%;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <header>Lounge Menu</header>
+  <div class="pdf-wrapper">
+    <iframe 
+      src="lounge-menu.pdf#toolbar=0&navpanes=0&scrollbar=0"
+      allowfullscreen
+    ></iframe>
+  </div>
+</body>
+</html>
