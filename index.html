@@ -1,23 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Redirecting to Lounge Menu...</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="refresh" content="0; url=pdfjs/web/viewer.html?file=../../menu.pdf" />
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: sans-serif;
-        background: #f9f9f9;
+<head>
+  <meta charset="UTF-8" />
+  <title>Lounge Menu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #f5f5f5;
+    }
+    #pdf {
+      height: 100%;
+      width: 100%;
+      overflow: auto;
+    }
+    canvas {
+      display: block;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <div id="pdf"></div>
+
+  <script type="module">
+    import * as pdfjsLib from './pdfjs/build/pdf.mjs';
+
+    // Path to the worker file
+    pdfjsLib.GlobalWorkerOptions.workerSrc = './pdfjs/build/pdf.worker.mjs';
+
+    const url = './menu.pdf';
+    const container = document.getElementById('pdf');
+
+    const loadingTask = pdfjsLib.getDocument(url);
+    loadingTask.promise.then(pdf => {
+      for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+        pdf.getPage(pageNumber).then(page => {
+          const scale = 1.5;
+          const viewport = page.getViewport({ scale });
+
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          container.appendChild(canvas);
+
+          const renderContext = {
+            canvasContext: context,
+            viewport: viewport
+          };
+          page.render(renderContext);
+        });
       }
-    </style>
-  </head>
-  <body>
-    <p>Redirecting to Lounge Menu...</p>
-  </body>
+    });
+  </script>
+</body>
 </html>
